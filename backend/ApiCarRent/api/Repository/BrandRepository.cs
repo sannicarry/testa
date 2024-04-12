@@ -21,8 +21,14 @@ namespace api.Repository
         }
         public async Task<List<Brand>> GetAllAsync(QueryObject query)
         {
-            //query để lọc list như search
-            return await _context.Brand.AsQueryable().ToListAsync();
+            var brands = await _context.Brand
+                                .Include(c => c.Cars)
+                                .Where(s => string.IsNullOrWhiteSpace(query.BrandName) || s.BrandName.Contains(query.BrandName))
+                                .Skip((query.PageNumber - 1) * query.PageSize)
+                                .Take(query.PageSize)
+                                .ToListAsync();
+
+            return brands;
         }
 
         public Task<Brand?> GetByBrandNameAsync(string name)
@@ -32,7 +38,7 @@ namespace api.Repository
 
         public async Task<Brand?> GetByIdAsync(int id)
         {
-            return await _context.Brand.FirstOrDefaultAsync(a => a.BrandId == id);
+            return await _context.Brand.Include(c => c.Cars).FirstOrDefaultAsync(a => a.BrandId == id);
         }
 
         public async Task<Brand> CreateAsync(Brand brandModel)
@@ -50,6 +56,8 @@ namespace api.Repository
                 return null;
             }
             brandModel.BrandName = brandDto.BrandName;
+            brandModel.Address = brandDto.Address;
+            brandModel.Phone = brandDto.Phone;
             await _context.SaveChangesAsync();
             return brandModel;
         }
@@ -65,6 +73,12 @@ namespace api.Repository
         public Task<bool> BrandExists(int id)
         {
             return _context.Brand.AnyAsync(s => s.BrandId == id);
+        }
+
+        public async Task<int> GetCountBrandsAsync()
+        {
+            var count = await _context.Brand.CountAsync();
+            return count;
         }
     }
 }

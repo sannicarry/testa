@@ -9,7 +9,10 @@ namespace api.Interfaces
     public interface ICarImageRepository
     {
         Task<List<string>> GetUrlByCarId(int carId);
-        Task<CarImage?> UpdateImageAsync(int CarId, string url, int index);
+        Task<CarImage?> UpdateImageAsync(int carId, string url, int index);
+        Task<CarImage?> DeleteImageAsync(int carId, int carImageId);
         Task<List<CarImage>> GetCarImageByCarId(int carId);
+        Task<int> CountCarImagesByCarId(int carId);
+        Task<CarImage> CreateImageAsync(int CarId, string imageUrl);
     }
 }

@@ -60,6 +60,10 @@ namespace api.Service
             // Lấy role của người dùng từ UserManager
             var userRoles = await _userManager.GetRolesAsync(user);
             var userRole = userRoles.FirstOrDefault();
+            if (string.IsNullOrEmpty(userRole))
+            {
+                userRole = "User";
+            }
 
             //Tạo claim đại diện thông tin người dùng
             var claims = new List<Claim> {

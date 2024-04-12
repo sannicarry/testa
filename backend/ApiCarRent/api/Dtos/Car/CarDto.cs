@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Models;
 
 namespace api.Dtos.Car
 {
@@ -19,5 +20,6 @@ namespace api.Dtos.Car
         public string Fuel { get; set; } = string.Empty;
         public string Transmission { get; set; } = string.Empty;
         public int? BrandId { get; set; }
+        public List<CarImageDto> CarImages { get; set; }
     }
 }

@@ -25,7 +25,8 @@ namespace api.Controller
         }
 
         [HttpGet]
-        [Authorize]
+        // [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
             if (!ModelState.IsValid)
@@ -87,6 +88,15 @@ namespace api.Controller
                 return NotFound();
             }
             return NoContent();
+        }
+
+        [HttpGet("GetCount")]
+        public async Task<int> GetCountBrands()
+        {
+            if (!ModelState.IsValid)
+                return 0;
+            var countBrands = await _brandRepo.GetCountBrandsAsync();
+            return countBrands;
         }
 
     }

@@ -51,13 +51,13 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2229ef4b-1871-4d8e-8bb2-4345541222e6",
+                            Id = "33c0fe0b-9789-4fd7-989e-6a0e2886246e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "7a8fb2c5-d9b0-4162-a7f2-4430d20b0073",
+                            Id = "2fa35c7c-bd01-48c5-9108-ba4923da1fcb",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -242,7 +242,15 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BrandId"));
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("BrandName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -482,7 +490,7 @@ namespace api.Migrations
             modelBuilder.Entity("api.Models.Car", b =>
                 {
                     b.HasOne("api.Models.Brand", "Brand")
-                        .WithMany()
+                        .WithMany("Cars")
                         .HasForeignKey("BrandId");
 
                     b.Navigation("Brand");
@@ -491,7 +499,7 @@ namespace api.Migrations
             modelBuilder.Entity("api.Models.CarImage", b =>
                 {
                     b.HasOne("api.Models.Car", "Car")
-                        .WithMany("CarImage")
+                        .WithMany("CarImages")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -534,9 +542,14 @@ namespace api.Migrations
                     b.Navigation("Car");
                 });
 
+            modelBuilder.Entity("api.Models.Brand", b =>
+                {
+                    b.Navigation("Cars");
+                });
+
             modelBuilder.Entity("api.Models.Car", b =>
                 {
-                    b.Navigation("CarImage");
+                    b.Navigation("CarImages");
                 });
 #pragma warning restore 612, 618
         }

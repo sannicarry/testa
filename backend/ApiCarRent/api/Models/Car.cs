@@ -20,6 +20,6 @@ namespace api.Models
         public string Transmission { get; set; } = string.Empty;
         public int? BrandId { get; set; }
         public Brand? Brand { get; set; }
-        public ICollection<CarImage>? CarImage { get; set; }
+        public List<CarImage> CarImages { get; set; } = new List<CarImage>();
     }
 }

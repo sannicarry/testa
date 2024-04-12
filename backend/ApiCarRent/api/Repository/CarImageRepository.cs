@@ -41,5 +41,32 @@ namespace api.Repository
             }
             return carImageModel;
         }
+
+        public async Task<CarImage?> DeleteImageAsync(int carId, int carImageId)
+        {
+            var carImage = await _context.CarImage.FirstOrDefaultAsync(c => c.CarId == carId && c.CarImageId == carImageId);
+            if (carImage == null) return null;
+            _context.CarImage.Remove(carImage);
+            await _context.SaveChangesAsync();
+            return carImage;
+        }
+
+        public async Task<int> CountCarImagesByCarId(int carId)
+        {
+            var count = await _context.CarImage.CountAsync(c => c.CarId == carId);
+            return count;
+        }
+
+        public async Task<CarImage> CreateImageAsync(int CarId, string imageUrl)
+        {
+            var carImageModel = new CarImage
+            {
+                CarId = CarId,
+                ImageUrl = imageUrl
+            };
+            await _context.CarImage.AddAsync(carImageModel);
+            await _context.SaveChangesAsync();
+            return carImageModel;
+        }
     }
 }

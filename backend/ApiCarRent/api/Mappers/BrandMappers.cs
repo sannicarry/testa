@@ -15,6 +15,9 @@ namespace api.Mappers
             {
                 BrandId = brandModel.BrandId,
                 BrandName = brandModel.BrandName,
+                Address = brandModel.Address,
+                Phone = brandModel.Phone,
+                Cars = brandModel.Cars.Select(c => c.ToCarDto()).ToList(),
             };
         }
 
@@ -23,6 +26,8 @@ namespace api.Mappers
             return new Brand
             {
                 BrandName = brandModel.BrandName,
+                Address = brandModel.Address,
+                Phone = brandModel.Phone,
             };
         }
     }

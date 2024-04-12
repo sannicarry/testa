@@ -23,7 +23,8 @@ namespace api.Mappers
                 CityMpg = car.CityMpg,
                 Fuel = car.Fuel,
                 Transmission = car.Transmission,
-                BrandId = car.BrandId
+                BrandId = car.BrandId,
+                CarImages = car.CarImages.Select(c => c.ToCarImageDto()).ToList(),
             };
         }
         public static Car ToCarFromCreateDTO(this CreateCarDto car, int BrandId)
